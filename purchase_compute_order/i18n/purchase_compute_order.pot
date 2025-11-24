@@ -1,12 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* purchase_compute_order
+# 	* purchase_compute_order
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2025-11-20 03:46+0000\n"
+"PO-Revision-Date: 2025-11-20 03:46+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +26,8 @@ msgid "Active"
 msgstr ""
 
 #. module: purchase_compute_order
-#: code:addons/purchase_compute_order/models/computed_purchase_order.py:431
-#, python-format
+#. odoo-python
+#: code:addons/purchase_compute_order/models/computed_purchase_order.py:0
 msgid "All purchase quantities are set to 0!"
 msgstr ""
 
@@ -40,20 +42,20 @@ msgid "Apply"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,line_order:0
-#: selection:res.partner,cpo_line_order:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__line_order__asc
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__cpo_line_order__asc
 msgid "Ascending"
 msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__average_consumption
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__displayed_average_consumption
 msgid "Average Consumption"
 msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order__active
-msgid "By unchecking the active field, you may hide this item without deleting it."
+msgid ""
+"By unchecking the active field, you may hide this item without deleting it."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -84,7 +86,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,state:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__state__canceled
 msgid "Canceled"
 msgstr ""
 
@@ -100,7 +102,9 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_search
-msgid "Computations already converted into purchase                               orders"
+msgid ""
+"Computations already converted into purchase                               "
+"orders"
 msgstr ""
 
 #. module: purchase_compute_order
@@ -125,7 +129,10 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_form
-msgid "Compute the optimal purchase quantities                                 of selected products according to the                                 objective."
+msgid ""
+"Compute the optimal purchase quantities                                 of "
+"selected products according to the                                 "
+"objective."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -158,14 +165,14 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,valid_psi:0
-#: selection:res.config.settings,default_valid_psi:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__valid_psi__all
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_config_settings__default_valid_psi__all
 msgid "Consider all the suppliers registered on the product"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,valid_psi:0
-#: selection:res.config.settings,default_valid_psi:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__valid_psi__first
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_config_settings__default_valid_psi__first
 msgid "Consider only the first supplier on the product"
 msgstr ""
 
@@ -201,16 +208,20 @@ msgid "Default unit of measure used for all stock operations."
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,line_order:0
-#: selection:res.partner,cpo_line_order:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__line_order__desc
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__cpo_line_order__desc
 msgid "Descending"
 msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__discount
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__discount_inv
 #: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_line_wizard__discount
 msgid "Discount (%)"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__discount_inv
+msgid "Discount Inv(%)"
 msgstr ""
 
 #. module: purchase_compute_order
@@ -222,19 +233,28 @@ msgid "Display Name"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,state:0
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__displayed_average_consumption
+msgid "Displayed Average Consumption"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__state__done
 msgid "Done"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,state:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__state__draft
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_search
 msgid "Draft"
 msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_form
-msgid "Fetch all active products sold by                                 selected supplier and calculate the available                                 quantities. It ignores inactive or not                                 purchasable products."
+msgid ""
+"Fetch all active products sold by                                 selected "
+"supplier and calculate the available                                 "
+"quantities. It ignores inactive or not                                 "
+"purchasable products."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -249,7 +269,8 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__sequence
-msgid "Gives the sequence order when displaying a list of purchase order lines."
+msgid ""
+"Gives the sequence order when displaying a list of purchase order lines."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -272,22 +293,40 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_form
-msgid "If you click this button,                                         it means you don't want to buy this                                         product to this supplier anymore.                                         The supplier will thus be removed from                                         the product form."
+msgid ""
+"If you click this button,                                         it means "
+"you don't want to buy this                                         product "
+"to this supplier anymore.                                         The "
+"supplier will thus be removed from                                         "
+"the product form."
 msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_form
-msgid "If you click this button,                                         it means you want to buy this product                                         to this supplier regularly.                                         The supplier will thus be added to                                         the product form."
+msgid ""
+"If you click this button,                                         it means "
+"you want to buy this product                                         to this"
+" supplier regularly.                                         The supplier "
+"will thus be added to                                         the product "
+"form."
 msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_line_tree
-msgid "If you click this button,                             it means you don't want to buy this                             product to this supplier anymore.                             The supplier will thus be removed from                             the product form."
+msgid ""
+"If you click this button,                             it means you don't "
+"want to buy this                             product to this supplier "
+"anymore.                             The supplier will thus be removed from"
+"                             the product form."
 msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_line_tree
-msgid "If you click this button,                             it means you want to buy this product                             to this supplier regularly.                             The supplier will thus be added to                             the product form."
+msgid ""
+"If you click this button,                             it means you want to "
+"buy this product                             to this supplier regularly."
+"                             The supplier will thus be added to"
+"                             the product form."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -303,14 +342,6 @@ msgstr ""
 #. module: purchase_compute_order
 #: model:ir.model,name:purchase_compute_order.model_update_products_line_wizard
 msgid "Information about products to update"
-msgstr ""
-
-#. module: purchase_compute_order
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order____last_update
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line____last_update
-#: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_line_wizard____last_update
-#: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_wizard____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: purchase_compute_order
@@ -365,9 +396,7 @@ msgid "Net Weight"
 msgstr ""
 
 #. module: purchase_compute_order
-#: code:addons/purchase_compute_order/models/computed_purchase_order.py:39
-#: selection:computed.purchase.order.line,state:0
-#, python-format
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order_line__state__new
 msgid "New"
 msgstr ""
 
@@ -420,8 +449,12 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__package_qty
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__package_qty_inv
 msgid "Package quantity"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__package_qty_inv
+msgid "Package quantity Inv"
 msgstr ""
 
 #. module: purchase_compute_order
@@ -440,7 +473,6 @@ msgid "Price Policy"
 msgstr ""
 
 #. module: purchase_compute_order
-#: model:ir.model,name:purchase_compute_order.model_product_product
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_id
 #: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_line_wizard__product_id
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_computed_purchase_order_line_search
@@ -448,13 +480,19 @@ msgid "Product"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,line_order_field:0
-#: selection:res.partner,cpo_line_order_field:0
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_sequence
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__line_order_field__product_sequence
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__cpo_line_order_field__product_sequence
 msgid "Product Sequence"
 msgstr ""
 
 #. module: purchase_compute_order
-#: sql_constraint:computed.purchase.order.line:0
+#: model:ir.model,name:purchase_compute_order.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.constraint,message:purchase_compute_order.constraint_computed_purchase_order_line_product_id_uniq
 msgid "Product must be unique by computed purchase order!"
 msgstr ""
 
@@ -465,14 +503,19 @@ msgid "Products to order."
 msgstr ""
 
 #. module: purchase_compute_order
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__psi_id
+msgid "Psi"
+msgstr ""
+
+#. module: purchase_compute_order
 #: model_terms:ir.ui.view,arch_db:purchase_compute_order.view_cpo_config_settings
 msgid "Purchase Compute Order"
 msgstr ""
 
 #. module: purchase_compute_order
-#: code:addons/purchase_compute_order/models/computed_purchase_order.py:450
+#. odoo-python
+#: code:addons/purchase_compute_order/models/computed_purchase_order.py:0
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order__purchase_order_id
-#, python-format
 msgid "Purchase Order"
 msgstr ""
 
@@ -510,7 +553,8 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__consumption_range
-msgid "Range (in days) used to display the average\n"
+msgid ""
+"Range (in days) used to display the average\n"
 "        consumption"
 msgstr ""
 
@@ -535,7 +579,6 @@ msgid "Search Purchase Order Lines"
 msgstr ""
 
 #. module: purchase_compute_order
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_sequence
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__sequence
 msgid "Sequence"
 msgstr ""
@@ -593,27 +636,44 @@ msgid "Supplier"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,line_order_field:0
+#: model:ir.model,name:purchase_compute_order.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_code
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_code_inv
 #: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_line_wizard__product_code
-#: selection:res.partner,cpo_line_order_field:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__line_order_field__product_code
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__cpo_line_order_field__product_code
 msgid "Supplier Product Code"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,line_order_field:0
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_code_inv
+msgid "Supplier Product Code Inv"
+msgstr ""
+
+#. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_name
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_name_inv
 #: model:ir.model.fields,field_description:purchase_compute_order.field_update_products_line_wizard__product_name
-#: selection:res.partner,cpo_line_order_field:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__line_order_field__product_name
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__cpo_line_order_field__product_name
 msgid "Supplier Product Name"
 msgstr ""
 
 #. module: purchase_compute_order
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_name_inv
+msgid "Supplier Product Name Inv"
+msgstr ""
+
+#. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_price
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_price_inv
 msgid "Supplier Product Price"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__product_price_inv
+msgid "Supplier Product Price Inv"
 msgstr ""
 
 #. module: purchase_compute_order
@@ -658,7 +718,10 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_update_products_line_wizard__package_qty
-msgid "The minimal quantity to purchase to this supplier, expressed in the supplier Product Unit of Measure if not empty, in the default unit of measure of the product otherwise."
+msgid ""
+"The minimal quantity to purchase to this supplier, expressed in the supplier"
+" Product Unit of Measure if not empty, in the default unit of measure of the"
+" product otherwise."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -683,7 +746,8 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order__target_type
-msgid "This defines the amount of products you want to purchase. \n"
+msgid ""
+"This defines the amount of products you want to purchase. \n"
 "The system will compute a purchase order based on the stock you have and the average consumption of each product. * Target type '€': computed purchase order will cost at least the amount specified\n"
 " * Target type 'days': computed purchase order will last at least the number of days specified (according to current average consumption)\n"
 " * Target type 'kg': computed purchase order will weight at least the weight specified"
@@ -692,7 +756,8 @@ msgstr ""
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_res_partner__target_type
 #: model:ir.model.fields,help:purchase_compute_order.field_res_users__target_type
-msgid "This defines the amount of products you want to purchase. \n"
+msgid ""
+"This defines the amount of products you want to purchase. \n"
 "The system will compute a purchase order based on the stock you have and the average consumption of each product.* Target type '€': computed purchase order will cost at least the amount specified\n"
 "* Target type 'days': computed purchase order will last at least the number of days specified (according to current average consumption)\n"
 "* Target type 'kg': computed purchase order will weight at least the weight specified"
@@ -700,30 +765,37 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_update_products_line_wizard__price
-msgid "This price will be considered as a price for the supplier Unit of Measure if any or the default Unit of Measure of the product otherwise"
+msgid ""
+"This price will be considered as a price for the supplier Unit of Measure if"
+" any or the default Unit of Measure of the product otherwise"
 msgstr ""
 
 #. module: purchase_compute_order
-#: code:addons/purchase_compute_order/models/computed_purchase_order_line.py:338
-#, python-format
+#. odoo-python
+#: code:addons/purchase_compute_order/models/computed_purchase_order_line.py:0
 msgid "This product is already in the list!"
 msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__product_code_inv
 #: model:ir.model.fields,help:purchase_compute_order.field_update_products_line_wizard__product_code
-msgid "This supplier's product code will be used when printing a request for quotation. Keep empty to use the internal one."
+msgid ""
+"This supplier's product code will be used when printing a request for "
+"quotation. Keep empty to use the internal one."
 msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__product_name_inv
 #: model:ir.model.fields,help:purchase_compute_order.field_update_products_line_wizard__product_name
-msgid "This supplier's product name will be used when printing a request for quotation. Keep empty to use the internal one."
+msgid ""
+"This supplier's product name will be used when printing a request for "
+"quotation. Keep empty to use the internal one."
 msgstr ""
 
 #. module: purchase_compute_order
 #: model_terms:ir.actions.act_window,help:purchase_compute_order.action_view_computed_purchase_order_tree
-msgid "This tool will allow you to calculate your needs according to the\n"
+msgid ""
+"This tool will allow you to calculate your needs according to the\n"
 "            stock and average consumption of your products and the purchase\n"
 "            objective defined against the supplier."
 msgstr ""
@@ -750,7 +822,9 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order__name
-msgid "Unique number of the automated purchase order, computed automatically when the computed purchase order is created."
+msgid ""
+"Unique number of the automated purchase order, computed automatically when "
+"the computed purchase order is created."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -760,12 +834,16 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__uom_id
-#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__uom_po_id
-msgid "UoM"
+msgid "Unit of Measure"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order.line,state:0
+#: model:ir.model.fields,field_description:purchase_compute_order.field_computed_purchase_order_line__uom_po_id
+msgid "Uom Po"
+msgstr ""
+
+#. module: purchase_compute_order
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order_line__state__up_to_date
 msgid "Up to date"
 msgstr ""
 
@@ -782,7 +860,7 @@ msgid "Update product_supplierinfo from compute_purchase_order"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order.line,state:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order_line__state__updated
 msgid "Updated"
 msgstr ""
 
@@ -812,13 +890,10 @@ msgid "Virtual outgoing entries"
 msgstr ""
 
 #. module: purchase_compute_order
-#: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__weight
-msgid "Weight of the product, packaging not included. The unit of measure can be changed in the general settings"
-msgstr ""
-
-#. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order__company_id
-msgid "When you will validate this item, this will create a purchase order for this company."
+msgid ""
+"When you will validate this item, this will create a purchase order for this"
+" company."
 msgstr ""
 
 #. module: purchase_compute_order
@@ -838,30 +913,30 @@ msgstr ""
 
 #. module: purchase_compute_order
 #: model:ir.model.fields,help:purchase_compute_order.field_computed_purchase_order_line__manual_input_output_qty
-msgid "Write here some extra quantity depending of some input or output of products not entered in the software\n"
+msgid ""
+"Write here some extra quantity depending of some input or output of products not entered in the software\n"
 "- negative quantity : extra output ; \n"
 "- positive quantity : extra input."
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,target_type:0
-#: selection:res.partner,target_type:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__target_type__time
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__target_type__time
 msgid "days"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order,target_type:0
-#: selection:res.partner,target_type:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order__target_type__weight
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__res_partner__target_type__weight
 msgid "kg"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order.line,price_policy:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order_line__price_policy__package
 msgid "per Package"
 msgstr ""
 
 #. module: purchase_compute_order
-#: selection:computed.purchase.order.line,price_policy:0
+#: model:ir.model.fields.selection,name:purchase_compute_order.selection__computed_purchase_order_line__price_policy__uom
 msgid "per UOM"
 msgstr ""
-

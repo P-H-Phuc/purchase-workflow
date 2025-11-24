@@ -26,8 +26,6 @@
 
 from odoo import api, fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class UpdateProductsWizard(models.TransientModel):
     _name = "update.products.wizard"
@@ -47,7 +45,7 @@ class UpdateProductsWizard(models.TransientModel):
         if active_id:
             psi_obj = self.env["product.supplierinfo"]
             cpo = self.env["computed.purchase.order"].browse(active_id)
-            cpol = cpo.line_ids.filtered(lambda l: l.state == "updated")
+            cpol = cpo.line_ids.filtered(lambda line: line.state == "updated")
             for line in cpol:
                 psi = psi_obj.search(
                     [
@@ -66,7 +64,7 @@ class UpdateProductsWizard(models.TransientModel):
                             "product_code": line.product_code,
                             "product_name": line.product_name,
                             "product_uom": line.uom_po_id.id,
-                            "package_qty": line.package_qty,
+                            "product_packaging_id": line.product_packaging_id.id,
                             "price": line.product_price,
                             "discount": line.discount,
                             "computed_purchase_order_line_id": line.id,
@@ -77,7 +75,6 @@ class UpdateProductsWizard(models.TransientModel):
         return res
 
     # Action section
-    @api.multi
     def apply_product_change(self):
         cpol = self.env["computed.purchase.order.line"]
         for upw in self:
@@ -86,7 +83,7 @@ class UpdateProductsWizard(models.TransientModel):
                     "product_name": line.product_name,
                     "product_code": line.product_code,
                     "product_uom": line.product_uom.id,
-                    "package_qty": line.package_qty,
+                    "product_packaging_id": line.product_packaging_id.id,
                     "product_id": line.product_id.id,
                     "product_tmpl_id": line.product_id.product_tmpl_id.id,
                     "price": line.price,
@@ -131,9 +128,13 @@ class UpdateProductsLineWizard(models.TransientModel):
         required=True,
         help="""This comes from the product form.""",
     )
+    product_packaging_id = fields.Many2one(
+        "product.packaging",
+        string="Packaging",
+    )
     package_qty = fields.Float(
-        "Package Quantity",
-        required=True,
+        related="product_packaging_id.qty",
+        string="Package Quantity",
         help="""The minimal quantity to purchase to this supplier,"""
         """ expressed in the supplier Product Unit of Measure if not"""
         """ empty, in the default unit of measure of the product"""
@@ -142,12 +143,12 @@ class UpdateProductsLineWizard(models.TransientModel):
     price = fields.Float(
         "Unit Price",
         required=True,
-        digits=dp.get_precision("Product Price"),
+        digits="Product Price",
         help="""This price will be considered as a price for the"""
         """ supplier Unit of Measure if any or the default Unit of"""
         """ Measure of the product otherwise""",
     )
-    discount = fields.Float(string="Discount (%)", digits=dp.get_precision("Discount"))
+    discount = fields.Float(string="Discount (%)", digits="Discount")
     computed_purchase_order_line_id = fields.Many2one(
         "computed.purchase.order.line",
         "Compute Line",

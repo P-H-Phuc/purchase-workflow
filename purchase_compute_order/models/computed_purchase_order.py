@@ -26,10 +26,8 @@
 
 from math import ceil
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-
-import odoo.addons.decimal_precision as dp
 
 
 class ComputedPurchaseOrder(models.Model):
@@ -38,7 +36,7 @@ class ComputedPurchaseOrder(models.Model):
     _order = "id desc"
 
     # Constant Values
-    _DEFAULT_NAME = _("New")
+    _DEFAULT_NAME = "New"
 
     _STATE = [
         ("draft", "Draft"),
@@ -69,7 +67,6 @@ class ComputedPurchaseOrder(models.Model):
     )
     company_id = fields.Many2one(
         "res.company",
-        "Company",
         readonly=True,
         required=True,
         help="""When you will validate this item, this will create a"""
@@ -89,7 +86,7 @@ class ComputedPurchaseOrder(models.Model):
         "res.partner",
         "Supplier",
         required=True,
-        domain=[("supplier", "=", True)],
+        domain=[("supplier_rank", ">", 0)],
         help="Supplier of the purchase order.",
     )
     line_ids = fields.One2many(
@@ -108,9 +105,7 @@ class ComputedPurchaseOrder(models.Model):
     compute_pending_quantity = fields.Boolean(
         "Pending quantity taken in account", default=True
     )
-    purchase_order_id = fields.Many2one(
-        "purchase.order", "Purchase Order", readonly=True
-    )
+    purchase_order_id = fields.Many2one("purchase.order", readonly=True)
     purchase_target = fields.Integer(default=0)
     target_type = fields.Selection(
         _TARGET_TYPE,
@@ -136,7 +131,9 @@ class ComputedPurchaseOrder(models.Model):
         ],
         string="Lines Order",
         help="The field used to sort the CPO lines",
-        default="product_code",
+        compute="_compute_line_order_fields",
+        store=True,
+        readonly=False,
         required=True,
     )
     line_order = fields.Selection(
@@ -145,7 +142,9 @@ class ComputedPurchaseOrder(models.Model):
             ("desc", "Descending"),
         ],
         string="Lines Order Direction",
-        default="asc",
+        compute="_compute_line_order_fields",
+        store=True,
+        readonly=False,
         required=True,
     )
     valid_psi = fields.Selection(
@@ -157,14 +156,14 @@ class ComputedPurchaseOrder(models.Model):
     )
     computed_amount = fields.Float(
         compute="_compute_computed_amount_duration",
-        digits=dp.get_precision("Product Price"),
+        digits="Product Price",
         string="Amount of the computed order",
     )
     package_qty_count = fields.Float(
         string="Total Quantity of Packages",
         help="Total count of packages by the current vendor",
         compute="_compute_package_quantity_count",
-        readonly="True",
+        readonly=True,
     )
     computed_duration = fields.Integer(
         compute="_compute_computed_amount_duration",
@@ -179,7 +178,6 @@ class ComputedPurchaseOrder(models.Model):
         compute="_compute_lines_with_qty",
     )
 
-    @api.multi
     def onchange(self, values, field_name, field_onchange):
         # we don't need to recompute the whole CPO after changing a line
         if field_name == "line_ids":
@@ -191,13 +189,24 @@ class ComputedPurchaseOrder(models.Model):
         )
 
     # Fields Function section
-    @api.onchange("line_ids")
-    @api.multi
+    @api.depends("partner_id")
+    def _compute_line_order_fields(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.line_order_field = (
+                    rec.partner_id.cpo_line_order_field or "product_code"
+                )
+                rec.line_order = rec.partner_id.cpo_line_order or "asc"
+            else:
+                rec.line_order_field = "product_code"
+                rec.line_order = "asc"
+
+    @api.depends("line_ids")
     def _compute_stock_line_ids(self):
         for spo in self:
             spo.stock_line_ids = spo.line_ids
 
-    @api.multi
+    @api.depends("line_ids")
     def _compute_computed_amount_duration(self):
         for cpo in self:
             min_duration = 999
@@ -212,7 +221,7 @@ class ComputedPurchaseOrder(models.Model):
             cpo.computed_amount = amount
             cpo.computed_duration = min_duration
 
-    @api.multi
+    @api.depends("line_ids.state")
     def _compute_products_updated(self):
         for cpo in self:
             updated = False
@@ -238,36 +247,31 @@ class ComputedPurchaseOrder(models.Model):
         if self.partner_id:
             self.purchase_target = self.partner_id.purchase_target
             self.target_type = self.partner_id.target_type
-            self.line_order_field = self.partner_id.cpo_line_order_field
-            self.line_order = self.partner_id.cpo_line_order
         self.line_ids = [(2, x.id, False) for x in self.line_ids]
 
     # Overload Section
-    @api.model
-    def create(self, vals):
-        if vals.get("name", self._DEFAULT_NAME) == self._DEFAULT_NAME:
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("computed.purchase.order") or "/"
-            )
-        order = super().create(vals)
-        return order
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", self._DEFAULT_NAME) == self._DEFAULT_NAME:
+                vals["name"] = (
+                    self.env["ir.sequence"].next_by_code("computed.purchase.order")
+                    or "/"
+                )
+        return super().create(vals_list)
 
-    @api.multi
     def write(self, vals):
         cpo_id = super().write(vals)
-        if self.update_sorting(vals):
+        if self.update_sorting(vals) or "partner_id" in vals:
             self.sort_lines()
         return cpo_id
 
-    @api.multi
     def sort_lines(self):
         for rec in self:
-            # sort based on field
             lines = rec.line_ids.sorted(
-                key=lambda l: getattr(l, rec.line_order_field) or "",
+                key=lambda line: getattr(line, rec.line_order_field) or "",
                 reverse=(rec.line_order == "desc"),
             )
-            # store new sequence
             for i, line in enumerate(lines):
                 line.sequence = i
 
@@ -301,7 +305,6 @@ class ComputedPurchaseOrder(models.Model):
             return False
 
     # Private Section
-    @api.multi
     def _sort_lines(self):
         cpol_obj = self.env["computed.purchase.order.line"]
         for cpo in self:
@@ -324,25 +327,23 @@ class ComputedPurchaseOrder(models.Model):
         all_lines = []
         for line in self.line_ids:
             if line.purchase_qty != 0:
+                line_name = (
+                    ""
+                    f"{line.product_code and '[' + line.product_code + ']' or ''} "
+                    f"{line.product_name or line.product_id.name}"
+                )
                 line_values = {
-                    "name": "%s%s"
-                    % (
-                        line.product_code_inv
-                        and "[" + line.product_code_inv + "] "
-                        or "",
-                        line.product_name_inv or line.product_id.name,
-                    ),
+                    "name": line_name,
                     "product_qty": line.purchase_qty,
                     "package_qty": line.package_qty,
-                    "product_qty_package": (line.purchase_qty / line.package_qty),
                     "price_policy": line.price_policy,
                     "date_planned": (
                         self.incoming_date or fields.Date.context_today(self)
                     ),
                     "product_uom": line.product_id.uom_po_id.id,
                     "product_id": line.product_id.id,
-                    "price_unit": line.product_price_inv,
-                    "discount": line.discount_inv,
+                    "price_unit": line.product_price,
+                    "discount": line.discount,
                     "taxes_id": [
                         (6, 0, [x.id for x in line.product_id.supplier_taxes_id])
                     ],
@@ -370,7 +371,6 @@ class ComputedPurchaseOrder(models.Model):
             quantity = 0
         return quantity, cpo_line.product_price, cpo_line.psi_id, cpo_line.package_qty
 
-    @api.multi
     def _compute_purchase_quantities_days(self):
         for cpo in self:
             days = cpo.purchase_target
@@ -379,11 +379,13 @@ class ComputedPurchaseOrder(models.Model):
                 quantity, product_price, psi, package_qty = self.parse_qty(line, days)
                 line.psi_id = psi
                 line.purchase_qty = quantity
-                line.purchase_qty_package = quantity / package_qty
                 line.package_qty = package_qty
                 line.product_price = product_price
+                if package_qty:
+                    line.purchase_qty_package = quantity / package_qty
+                else:
+                    line.purchase_qty_package = 0
 
-    @api.multi
     @api.depends("line_ids.purchase_qty_package")
     def _compute_package_quantity_count(self):
         for rec in self:
@@ -400,7 +402,6 @@ class ComputedPurchaseOrder(models.Model):
             product_price_inv_eq = product_price
         field_list_dict[line.id] = product_price_inv_eq
 
-    @api.multi
     def _compute_purchase_quantities_other(self, field):
         for cpo in self:
             cpol_obj = self.env["computed.purchase.order.line"]
@@ -443,9 +444,12 @@ class ComputedPurchaseOrder(models.Model):
                 quantity, product_price, psi, package_qty = qty_tmp[line.id]
                 line.psi_id = psi
                 line.purchase_qty = quantity
-                line.purchase_qty_package = quantity / package_qty
                 line.package_qty = package_qty
                 line.product_price = product_price
+                if package_qty:
+                    line.purchase_qty_package = quantity / package_qty
+                else:
+                    line.purchase_qty_package = 0
 
     @api.model
     def _check_purchase_qty(self, target=0, field_list=None, qty_tmp=None):
@@ -459,10 +463,9 @@ class ComputedPurchaseOrder(models.Model):
             return True
         return total >= target
 
-    @api.multi
     def get_psi_domain(self):
         self.ensure_one()
-        args = [("name", "=", self.partner_id.id)]
+        args = [("partner_id", "=", self.partner_id.id)]
         return args
 
     def parse_cpol_vals(self, psi, product):
@@ -482,7 +485,6 @@ class ComputedPurchaseOrder(models.Model):
         return res
 
     # Action section
-    @api.multi
     def compute_active_product_stock(self):
         psi_obj = self.env["product.supplierinfo"]
         for cpo in self:
@@ -494,15 +496,14 @@ class ComputedPurchaseOrder(models.Model):
             # Get product_product and compute stock
             for psi in psi_obj.search(cpo.get_psi_domain()):
                 for pp in psi.product_tmpl_id.filtered(
-                    lambda pt: pt.purchase_ok
+                    "purchase_ok"
                 ).product_variant_ids:
                     valid_psi = pp._valid_psi(cpo.valid_psi)
                     if valid_psi and psi in valid_psi[0]:
-                        cpol_list.append((0, 0, self.parse_cpol_vals(psi, pp)))
+                        cpol_list.append((0, 0, cpo.parse_cpol_vals(psi, pp)))
             # update line_ids
-            self.line_ids = cpol_list
+            cpo.line_ids = cpol_list
 
-    @api.multi
     def compute_purchase_quantities(self):
         for cpo in self:
             if any([line.average_consumption for line in cpo.line_ids]):
@@ -511,12 +512,13 @@ class ComputedPurchaseOrder(models.Model):
                 else:
                     return cpo._compute_purchase_quantities_other(field=cpo.target_type)
 
-    @api.multi
     def make_order(self):
         for cpo in self:
             po_lines = cpo._make_po_lines()
             if not po_lines:
-                raise ValidationError(_("All purchase quantities are set to 0!"))
+                raise ValidationError(
+                    self.env._("All purchase quantities are set to 0!")
+                )
 
             po_obj = self.env["purchase.order"]
             po_values = {
@@ -530,22 +532,20 @@ class ComputedPurchaseOrder(models.Model):
             cpo.purchase_order_id = po_id
 
             mod_obj = self.env["ir.model.data"]
-            res = mod_obj.get_object_reference("purchase", "purchase_order_form")
+            res = mod_obj.check_object_reference("purchase", "purchase_order_form")
             res_id = res and res[1] or False
             return {
-                "name": _("Purchase Order"),
+                "name": self.env._("Purchase Order"),
                 "view_type": "form",
                 "view_mode": "form",
                 "views": [(res_id, "form")],
                 "view_id": [res_id],
                 "res_model": "purchase.order",
                 "type": "ir.actions.act_window",
-                "nodestroy": True,
                 "target": "current",
                 "res_id": po_id.id or False,
             }
 
-    @api.multi
     def action_view_order_lines(self):
         self.ensure_one()
         action = self.env.ref(

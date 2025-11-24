@@ -29,7 +29,7 @@
         <field name="name">update.products.line.wizard.tree</field>
         <field name="model">update.products.line.wizard</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <list editable="top">
                 <field name="product_id" />
                 <field name="product_code" />
                 <field name="product_name" />
@@ -37,7 +37,7 @@
                 <field name="product_uom" />
                 <field name="price" />
                 <field name="discount" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -45,7 +45,6 @@
         <field name="name">Update Products</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">update.products.wizard</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_update_products_form" />
         <field name="target">new</field>

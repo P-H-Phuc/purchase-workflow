@@ -23,7 +23,8 @@ class ProductSupplierinfo(models.Model):
 
     # Columns Section
     shelf_life = fields.Integer(
-        string="Shelf life (days)", inverse="_inverse_shelf_life"
+        string="Shelf life (days)",
+        inverse="_inverse_shelf_life",
     )
 
     def _inverse_shelf_life(self):
@@ -37,6 +38,6 @@ class ProductSupplierinfo(models.Model):
                     ]
                 )
             )
-            lines = lines.filtered(lambda l: l.cpo_state == "draft")
+            lines = lines.filtered(lambda line: line.cpo_state == "draft")
             for line in lines:
                 line.shelf_life = psi.shelf_life
