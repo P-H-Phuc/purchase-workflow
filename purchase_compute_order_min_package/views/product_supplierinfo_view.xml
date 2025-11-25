@@ -9,8 +9,16 @@
         />
         <field name="arch" type="xml">
             <field name="package_qty" position="before">
-                <field name="min_nb_of_package" />
-                <field name="max_nb_of_package" />
+                <field
+                    name="min_nb_of_package"
+                    groups="product.group_stock_packaging"
+                    invisible="not product_packaging_id"
+                />
+                <field
+                    name="max_nb_of_package"
+                    groups="product.group_stock_packaging"
+                    invisible="not product_packaging_id"
+                />
             </field>
         </field>
     </record>
@@ -24,8 +32,16 @@
         />
         <field name="arch" type="xml">
             <field name="package_qty" position="before">
-                <field name="min_nb_of_package" />
-                <field name="max_nb_of_package" />
+                <field
+                    name="min_nb_of_package"
+                    groups="product.group_stock_packaging"
+                    invisible="not product_packaging_id"
+                />
+                <field
+                    name="max_nb_of_package"
+                    groups="product.group_stock_packaging"
+                    invisible="not product_packaging_id"
+                />
             </field>
         </field>
     </record>
